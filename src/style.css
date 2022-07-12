@@ -57,6 +57,7 @@ body {
 .pet img {
   width: 100px;
   min-height: 100px;
+  /* border-radius: 50%; */
 }
 
 .info {
