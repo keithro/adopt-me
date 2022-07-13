@@ -1,6 +1,8 @@
 import { Component } from "react";
 import { useParams } from "react-router-dom";
 import Carousel from "./Carousel";
+import ErrorBoundary from "./ErrorBoundary";
+import ThemeContext from "./ThemeContext";
 
 class Details extends Component {
   // No longer need constructor with newer JS, so using Parcel + babel plugin to transform our code.
@@ -12,8 +14,7 @@ class Details extends Component {
   state = { loading: true };
 
   // Can't use useEffect so...
-  // componentDidMount runs after component rendered to the DOM for the first time
-  // It is similar to useEffect with empty dependencies array []
+  // componentDidMount runs after component rendered to the DOM for the first time similar to useEffect with empty dependencies array []
   async componentDidMount() {
     // this.props is how we access props in class based components
     const res = await fetch(
@@ -30,6 +31,8 @@ class Details extends Component {
       return <h2> Loading...</h2>;
     }
 
+    // throw new Error("lmao you crashed");
+
     const { animal, breed, city, state, description, name, images } =
       this.state;
 
@@ -39,7 +42,11 @@ class Details extends Component {
         <div>
           <h1>{name}</h1>
           <h2>{`${animal} — ${breed} — ${city}, ${state}`}</h2>
-          <button>Adopt {name}</button>
+          <ThemeContext.Consumer>
+            {([theme]) => (
+              <button style={{ backgroundColor: theme }}>Adopt {name}</button>
+            )}
+          </ThemeContext.Consumer>
           <p>{description}</p>
         </div>
       </div>
@@ -50,7 +57,12 @@ class Details extends Component {
 // Need a non-class based component to use useParams
 const WrappedDetails = () => {
   const params = useParams();
-  return <Details params={params} />;
+  return (
+    // ErrorBoundary has to be above/outside component that we expect to have errors
+    <ErrorBoundary>
+      <Details params={params} />
+    </ErrorBoundary>
+  );
 };
 
 export default WrappedDetails;

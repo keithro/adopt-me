@@ -16,9 +16,9 @@ class Carousel extends Component {
 
     this.setState({
       // dataset is the data property defined in html(jsx) below.
-      // active: +event.target.dataset.index,
       // We use "+" to make sure it is set as number, not string but could also use parseInt
       active: parseInt(event.target.dataset.index),
+      // active: +event.target.dataset.index,
     });
   };
 

@@ -171,8 +171,9 @@ header {
 }
 
 .carousel-smaller > img.active {
-  border-color: #333;
-  opacity: 0.6;
+  /* border-color: #333; */
+  border: 3px solid rgb(255, 96, 102);
+  opacity: 0.5;
 }
 
 .search-params label {
